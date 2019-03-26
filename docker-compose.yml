@@ -1,0 +1,11 @@
+version: '3'
+services:
+  base_project:
+    build:
+      context: .
+    restart: on-failure
+    environment:
+      DEBUG: 1
+    ports:
+      - 8000:8000
+
