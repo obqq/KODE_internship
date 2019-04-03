@@ -1,6 +1,6 @@
 FROM python:3.7
 
-WORKDIR /opt/base_project
+WORKDIR /opt/base_app
 
 COPY config/requirements.txt requirements.txt
 

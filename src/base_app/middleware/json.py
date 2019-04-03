@@ -46,5 +46,5 @@ class RequestDecoder:
         return JsonDict(data)
 
 
-class BaseProjectRequestDecoder(MiddlewareMixin, RequestDecoder):
+class BaseAppRequestDecoder(MiddlewareMixin, RequestDecoder):
     pass

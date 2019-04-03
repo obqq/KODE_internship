@@ -1,6 +1,6 @@
 import logging
 
-from base_project.common.utils.json import Json
+from base_app.utils.json import Json
 
 logger = logging.getLogger(__name__)
 
