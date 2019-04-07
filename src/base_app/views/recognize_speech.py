@@ -14,7 +14,7 @@ class RecognizeSpeech(Json):
 		serializer = SpeechSerializer(data=request.POST)
 		if not serializer.is_valid():
 			return JsonResponse(
-				{'message': serializer.errors},
+				{'error': serializer.errors},
 				status=400
 			)
 
@@ -33,7 +33,7 @@ class RecognizeSpeech(Json):
 			error = response.get('error')
 			if error is not None:
 				return JsonResponse(
-					{'message': error.get('message')},
+					{'error': error.get('message')},
 					status=400
 				)
 
@@ -44,6 +44,6 @@ class RecognizeSpeech(Json):
 			)
 
 		return JsonResponse(
-				{'message': 'Audio file was not specified.'},
+				{'error': 'Audio file was not specified.'},
 				status=400
 			)
