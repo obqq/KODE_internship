@@ -27,8 +27,15 @@ class RecognizeSpeech(Json):
 
 
 		if audiofile is not None:
-			API = GoogleSpeechToTextAPI()
-			response = API.recognize(audiofile, encoding, sampleRateHertz, languageCode)
+			try:
+				API = GoogleSpeechToTextAPI()
+				response = API.recognize(audiofile, encoding, sampleRateHertz, languageCode)
+			except Exception as e:
+				logger.error(e)
+				return JsonResponse(
+					{'error': 'Something went wrong. Please try again later.'},
+					status=500
+				)
 
 			error = response.get('error')
 			if error is not None:
