@@ -2,6 +2,7 @@ import logging
 from django.http import JsonResponse
 
 from base_app.utils.json import Json
+from base_app.serializers import SpeechSerializer
 from base_app.integrations.speech_to_text import GoogleSpeechToTextAPI
 
 logger = logging.getLogger(__name__)
@@ -10,6 +11,13 @@ logger = logging.getLogger(__name__)
 class RecognizeSpeech(Json):
 
 	def post(self, request):
+		serializer = SpeechSerializer(data=request.POST)
+		if not serializer.is_valid():
+			return JsonResponse(
+				{'message': serializer.errors},
+				status=400
+			)
+
 		request_data = request.POST
 		audiofile = request.FILES.get('file')
 
