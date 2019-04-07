@@ -52,8 +52,9 @@ class SpeechSerializer(serializers.Serializer):
 			if rates is None:
 				break
 
-			if sampleRateHertz not in self._enums.get(self.encoding):
-				msg = "Parameter 'sampleRateHertz' value does not match google's specifications."
+			if not (8000 <= sampleRateHertz <= 48000) or \
+					sampleRateHertz not in self._enums.get(self.encoding):
+				msg = "Parameter 'sampleRateHertz' value does not match Google's specifications."
 				raise ValidationError(msg)
 
 			break
