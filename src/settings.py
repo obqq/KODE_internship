@@ -34,6 +34,9 @@ ALLOWED_HOSTS = [
     '*',
 ]
 
+# Third-party API's keys
+GOOGLE_SPEECH_API_KEY = os.environ.get('GOOGLE_SPEECH_API_KEY')
+
 # Application definition
 
 INSTALLED_APPS = [
