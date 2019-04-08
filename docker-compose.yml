@@ -1,0 +1,14 @@
+version: '3'
+services:
+  db:
+    image: postgres:11-alpine
+    restart: on-failure
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PAWWROD: 'postgers'
+
+  redis:
+    image: redist.latest
+    restart: on-failure
+    

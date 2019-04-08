@@ -3,20 +3,21 @@ from rest_framework import serializers
 from rest_framework.serializers import ValidationError
 
 
+enums = {'ENCODING_UNSPECIFIED': None,
+		  'LINEAR16': None,
+		  'FLAC': None,
+		  'MULAW': None,
+		  'AMR': [8000],
+		  'AMR_WB': [16000],
+		  'OGG_OPUS': [8000, 12000, 16000, 24000, 48000],
+		  'SPEEX_WITH_HEADER_BYTE': [16000]}
+
+
 class SpeechSerializer(serializers.Serializer):
 	languageCode = serializers.CharField()
 	encoding = serializers.CharField()
 	sampleRateHertz = serializers.IntegerField()
 
-
-	_enums = {'ENCODING_UNSPECIFIED': None,
-					  'LINEAR16': None,
-					  'FLAC': None,
-					  'MULAW': None,
-					  'AMR': [8000],
-					  'AMR_WB': [16000],
-					  'OGG_OPUS': [8000, 12000, 16000, 24000, 48000],
-					  'SPEEX_WITH_HEADER_BYTE': [16000]}
 
 	def validate(self, data):
 		if not data:
@@ -45,15 +46,16 @@ class SpeechSerializer(serializers.Serializer):
 		if type(encoding) is not str:
 			raise ValidationError("Parameter has invalid type")
 
-		for enum, rates in self._enums.items():
+		for enum, rates in self.enums.items():
 			if encoding != enum:
 				continue
 
 			if rates is None:
 				break
 
-			if sampleRateHertz not in self._enums.get(self.encoding):
-				msg = "Parameter 'sampleRateHertz' value does not match google's specifications."
+			if not (8000 <= sampleRateHertz <= 48000) or \
+					sampleRateHertz not in self.enums.get(self.encoding):
+				msg = "Parameter 'sampleRateHertz' value does not match Google's specifications."
 				raise ValidationError(msg)
 
 			break

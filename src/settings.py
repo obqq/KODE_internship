@@ -28,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '96ca&lyuapikc9uo(5^1vky@ixt5tazc5y#07jncgqqjdo8+ia'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get('DEBUG', 0))
+DEBUG = bool(os.environ.get('DEBUG', 1))
 
 ALLOWED_HOSTS = [
     '*',
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	'rest_framework',
     'base_app',
+    'api'
 ]
 
 MIDDLEWARE = [
@@ -60,7 +61,7 @@ MIDDLEWARE = [
     'base_app.middleware.BaseAppRequestDecoder',
 ]
 
-ROOT_URLCONF = 'base_app.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATES = [
     {
@@ -83,6 +84,16 @@ WSGI_APPLICATION = 'wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#
 
+{
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    }
+}
 
 CACHE_DEFAULT_TIMEOUT = 60
 
