@@ -8,7 +8,7 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 
-class GoogleSpeechToTextAPI():
+class GoogleSpeechToTextAPI:
 	def __init__(self):
 		self.API_KEY = settings.GOOGLE_SPEECH_API_KEY
 
@@ -26,7 +26,7 @@ class GoogleSpeechToTextAPI():
 		audio_content = audiofile.read()
 		return base64.b64encode(audio_content)
 
-	def recognize(self, audiofile, encoding, sampleRateHertz, languageCode):
+	def recognize(self, audiofile, encoding, sample_rate_hertz, language_code):
 		speech_content = self.encode_audio(audiofile)
 
 		data = {
@@ -35,8 +35,8 @@ class GoogleSpeechToTextAPI():
 			},
 			'config': {
 				'encoding': encoding,
-				'sampleRateHertz': sampleRateHertz,
-				'languageCode': languageCode
+				'sampleRateHertz': sample_rate_hertz,
+				'languageCode': language_code
 			}
 		}
 
