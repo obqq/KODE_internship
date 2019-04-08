@@ -16,7 +16,7 @@ class GoogleSpeechToTextAPI:
 		try:
 			URL = f'https://speech.googleapis.com/v1/speech:recognize?alt=json&key={self.API_KEY}'
 
-			response = requests.post(URL, json=data)
+			response = requests.post(URL, data=json.dumps(data))
 			return response.json()
 
 		except requests.exceptions.RequestException as e:
