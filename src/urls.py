@@ -1,5 +1,6 @@
-from django.conf.urls import include, url
+from django.urls import path, include
 
 urlpatterns = [
-    url('base/', include('base_app.urls')),
+    path('base/', include('base_app.urls')),
+    path('api/', include('api.urls')),
 ]
