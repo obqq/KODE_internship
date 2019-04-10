@@ -1,8 +1,14 @@
 from django.urls import path
+from rest_framework.routers import DefaultRouter
 
-from api import views
+from api.views import UserViewSet, RecognizeSpeech
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet, basename='user')
 
 
 urlpatterns = [
-	path('speech', views.RecognizeSpeech.as_view(), name='speech_recognition'),
+    path('speech/', RecognizeSpeech.as_view(), name='speech')
 ]
+
+urlpatterns += router.urls
