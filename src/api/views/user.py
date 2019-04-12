@@ -23,8 +23,7 @@ class UserViewSet(viewsets.ViewSet):
 
         try:
             user = User.objects.get(username=pk)
-        except Exception as e:
-            print(e)
+        except User.DoesNotExist:
             return Response({'error': 'Username not found'}, status=status.HTTP_404_NOT_FOUND)
 
         password = request.POST.get('password')

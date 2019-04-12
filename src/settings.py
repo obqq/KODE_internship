@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'base_app',
+    '......trainee-aiohttp-base.base_app',
     'api'
 ]
 
@@ -83,6 +83,7 @@ WSGI_APPLICATION = 'wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#
+
 
 DATABASES = {
     'default': {
