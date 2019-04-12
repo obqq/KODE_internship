@@ -1,6 +1,5 @@
-from .serializers import UserSerializer, SpeechSerializer
+from .serializers import UserSerializer
 
 __all__ = [
     'UserSerializer',
-    'SpeechSerializer'
 ]
