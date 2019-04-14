@@ -7,8 +7,8 @@ from django.conf import settings
 def decode_token(token):
     with open(settings.API_PUBLIC_KEY_PATH) as f:
         public_key = f.read()
-    data = jwt.decode(token, public_key, algorithms=['RS256'])
 
+    data = jwt.decode(token, public_key, algorithms=['RS256'])
     return data
 
 
@@ -19,7 +19,7 @@ def generate_token(username):
         private_key = f.read()
 
     expires = datetime.now() + timedelta(seconds=expire_seconds)
-    payload = {'username': username, 'expires': expires.timestamp()}
+    payload = {'username': username, 'exp': expires.timestamp()}
     access_token = jwt.encode(payload, private_key, algorithm='RS256')
     payload.update({'refresh_token': True})
     refresh_token = jwt.encode(payload, private_key, algorithm='RS256')
