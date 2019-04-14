@@ -43,7 +43,7 @@ class AccessTokenView(APIView):
 
         token = generate_token(username)
 
-        return Response({'token': token}, status=status.HTTP_200_OK)
+        return Response(token, status=status.HTTP_200_OK)
 
 
 class RefreshTokenView(APIView):
