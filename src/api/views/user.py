@@ -30,15 +30,7 @@ class UserViewSet(viewsets.ViewSet):
         if not password:
             return Response({'error': 'Password is not specified'}, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            check = User.objects.delete_user(user, password)
-        except Exception as e:
-            logger.error(e)
-            return Response(
-                {'error': 'Something went wrong. Please try again later.'},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
-
+        check = User.objects.delete_user(user, password)
         if not check:
             return Response({'error': 'Password is not correct'}, status=status.HTTP_400_BAD_REQUEST)
 

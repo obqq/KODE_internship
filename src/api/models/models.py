@@ -6,31 +6,6 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 
 
-class UserManager(models.Manager):
-    use_in_migrations = True
-
-    def _create_user(self, username, password):
-        username = self.normalize_username(username)
-        user = self.model(username=username)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_user(self, username, password):
-        return self._create_user(username, password)
-
-    def delete_user(self, user, raw_password):
-        check = user.check_password(raw_password)
-
-        if check:
-            user.delete()
-            return check
-
-    @classmethod
-    def normalize_username(cls, username):
-        return unicodedata.normalize('NFKC', username) if isinstance(username, str) else username
-
-
 class User(models.Model):
     username_validator = UnicodeUsernameValidator()
 
@@ -46,12 +21,30 @@ class User(models.Model):
     )
     password = models.CharField(('password'), max_length=128)
 
-    objects = UserManager()
 
     REQUIRED_FIELDS = ['username', 'password']
 
-    # class Meta:
-    #     abstract = True
+
+    def _create_user(self, username, password):
+        username = self.normalize_username(username)
+        user = User(username=username)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_user(self, username, password):
+        return self._create_user(username, password)
+
+    def delete_user(self, user, raw_password):
+        check = user.check_password(raw_password)
+
+        if check:
+            user.delete()
+            return check
+
+    @classmethod
+    def normalize_username(cls, username):
+        return unicodedata.normalize('NFKC', username) if isinstance(username, str) else username
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
