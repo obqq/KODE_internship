@@ -1,7 +1,11 @@
-from .recognize_speech import RecognizeSpeech
+
 from .user import UserViewSet
+from .auth import AccessTokenView, RefreshTokenView, PublicKeyView
+
 
 __all__ = [
-    'RecognizeSpeech',
-    'UserViewSet'
+    'UserViewSet',
+    'AccessTokenView',
+    'RefreshTokenView',
+    'PublicKeyView'
 ]

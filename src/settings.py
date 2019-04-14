@@ -34,8 +34,11 @@ ALLOWED_HOSTS = [
     '*',
 ]
 
-# Third-party API's keys
-GOOGLE_SPEECH_API_KEY = os.environ.get('GOOGLE_SPEECH_API_KEY')
+# API
+API_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, 'src\\keys\\jwtRS256.key')
+API_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'src\\keys\\jwtRS256.key.pub')
+
+ACCESS_TOKEN_EXPIRE_SECONDS = 36000
 
 # Application definition
 
@@ -47,7 +50,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'base_app',
     'api'
 ]
 
@@ -58,7 +60,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'base_app.middleware.BaseAppRequestDecoder',
 ]
 
 ROOT_URLCONF = 'urls'
@@ -83,6 +84,7 @@ WSGI_APPLICATION = 'wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#
+
 
 DATABASES = {
     'default': {

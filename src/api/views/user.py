@@ -23,23 +23,14 @@ class UserViewSet(viewsets.ViewSet):
 
         try:
             user = User.objects.get(username=pk)
-        except Exception as e:
-            print(e)
+        except User.DoesNotExist:
             return Response({'error': 'Username not found'}, status=status.HTTP_404_NOT_FOUND)
 
         password = request.POST.get('password')
         if not password:
             return Response({'error': 'Password is not specified'}, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            check = User.objects.delete_user(user, password)
-        except Exception as e:
-            logger.error(e)
-            return Response(
-                {'error': 'Something went wrong. Please try again later.'},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
-
+        check = User.objects.delete_user(user, password)
         if not check:
             return Response({'error': 'Password is not correct'}, status=status.HTTP_400_BAD_REQUEST)
 
