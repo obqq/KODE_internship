@@ -1,6 +1,7 @@
 from rest_framework.routers import DefaultRouter
 
-from api.views import UserViewSet
+from django.urls import path
+from api.views import UserViewSet, AccessTokenView, RefreshTokenView, PublicKeyView
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
