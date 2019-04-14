@@ -24,16 +24,14 @@ class User(models.Model):
 
     REQUIRED_FIELDS = ['username', 'password']
 
-
-    def _create_user(self, username, password):
-        username = self.normalize_username(username)
+    @classmethod
+    def create_user(cls, username, password):
+        username = cls.normalize_username(username)
         user = User(username=username)
         user.set_password(password)
         user.save()
         return user
 
-    def create_user(self, username, password):
-        return self._create_user(username, password)
 
     def delete_user(self, user, raw_password):
         check = user.check_password(raw_password)
