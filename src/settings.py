@@ -34,8 +34,11 @@ ALLOWED_HOSTS = [
     '*',
 ]
 
-# Third-party API's keys
-GOOGLE_SPEECH_API_KEY = os.environ.get('GOOGLE_SPEECH_API_KEY')
+# API
+API_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, 'src\\keys\\jwtRS256.key')
+API_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'src\\keys\\jwtRS256.key.pub')
+
+ACCESS_TOKEN_EXPIRE_SECONDS = 36000
 
 # Application definition
 
