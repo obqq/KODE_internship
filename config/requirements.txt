@@ -3,3 +3,4 @@ python-dotenv==0.10.1
 requests==2.21.0
 djangorestframework==3.9.2
 psycopg2-binary==2.8.1
+cryptography==2.6.1
