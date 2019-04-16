@@ -21,7 +21,6 @@ class User(models.Model):
     )
     password = models.CharField(('password'), max_length=128)
 
-
     REQUIRED_FIELDS = ['username', 'password']
 
     @classmethod
@@ -31,7 +30,6 @@ class User(models.Model):
         user.set_password(password)
         user.save()
         return user
-
 
     def delete_user(self, user, raw_password):
         check = user.check_password(raw_password)
@@ -56,11 +54,6 @@ class User(models.Model):
     def check_password(self, raw_password):
         return check_password(raw_password, self.password)
 
-    def get_username(self):
-        return self.username
-
-    # to be implemented
-
     def follow(self, user):
         pass
 
@@ -73,24 +66,5 @@ class User(models.Model):
     def is_followed_by(self, user):
         pass
 
-    def pitts(self):
-        pass
-
-    def follows(self):
-        pass
-
     def __str__(self):
-        return self.get_username()
-
-
-class Follow(models.Model):
-    follower = models.ForeignKey(User, related_name='follower', on_delete=models.CASCADE)
-    followed = models.ForeignKey(User, related_name='followed', on_delete=models.CASCADE)
-
-
-class Pitt(models.Model):
-    pitt_id = models.CharField(max_length=128, default=uuid.uuid4, primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    audio = models.FileField(upload_to='audio/')
-    transcript = models.TextField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+        return self.username
