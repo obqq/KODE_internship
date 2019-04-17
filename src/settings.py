@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 100
+    'PAGE_SIZE': 10
 }
 
 MIDDLEWARE = [
@@ -221,7 +221,6 @@ CELERY_BROKER_TRANSPORT = 'redis'
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_TIMEZONE = 'UTC'
-CELERY_ACCEPT_CONTENT = ['application/json']  # json
+CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERYBEAT_SCHEDULE = {}
