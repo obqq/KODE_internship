@@ -88,7 +88,7 @@ class FollowViews(generics.GenericAPIView):
                             status=status.HTTP_404_NOT_FOUND)
 
         if user.is_following(target_user):
-            return Response({'error': f'User {username} is following {target}'},
+            return Response({'error': f'User {username} is already following {target}'},
                             status=status.HTTP_400_BAD_REQUEST)
 
         user.follow(target_user)
@@ -116,7 +116,7 @@ class FollowViews(generics.GenericAPIView):
                             status=status.HTTP_404_NOT_FOUND)
 
         if not user.is_following(target_user):
-            return Response({'error': f'User {username} is not following {target}'},
+            return Response({'error': f'User {username} is not following {target} yew'},
                             status=status.HTTP_400_BAD_REQUEST)
 
         user.unfollow(target_user)
