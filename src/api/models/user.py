@@ -5,6 +5,8 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 
+from api.tasks import send_email
+
 
 class User(models.Model):
     username_validator = UnicodeUsernameValidator()
@@ -19,19 +21,23 @@ class User(models.Model):
             'unique': ("A user with that username already exists."),
         }
     )
+    email = models.EmailField(blank=True, null=True, max_length=256)
+    first_name = models.CharField(blank=True, null=True, max_length=128)
+    last_name = models.CharField(blank=True, null=True, max_length=128)
     password = models.CharField(('password'), max_length=128)
 
     REQUIRED_FIELDS = ['username', 'password']
 
     @classmethod
-    def create_user(cls, username, password):
+    def create_user(cls, username, password, **kwargs):
         username = cls.normalize_username(username)
-        user = User(username=username)
+        user = User(username=username, **kwargs)
         user.set_password(password)
         user.save()
         return user
 
-    def delete_user(self, user, raw_password):
+    @classmethod
+    def delete_user(cls, user, raw_password):
         check = user.check_password(raw_password)
 
         if check:
@@ -54,17 +60,23 @@ class User(models.Model):
     def check_password(self, raw_password):
         return check_password(raw_password, self.password)
 
-    def follow(self, user):
-        pass
+    def follow(self, target):
+        self.targets.create(target=target, follower=self)
 
-    def unfollow(self, user):
-        pass
+        send_email.apply_async((f'Dear {target.username}. {self.username} is now following you.',))
+        return True
 
-    def is_following(self, user):
-        pass
+    def unfollow(self, target):
+        old_follow = self.targets.get(target=target)
+        old_follow.delete()
+        return True
 
-    def is_followed_by(self, user):
-        pass
+    def is_following(self, target):
+        try:
+            self.targets.get(target=target)
+            return True
+        except:
+            pass
 
     def __str__(self):
         return self.username
