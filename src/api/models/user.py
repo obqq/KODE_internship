@@ -5,7 +5,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 
-from api.tasks import send_email
+from api.tasks import send_async_email
 
 
 class User(models.Model):
@@ -63,13 +63,15 @@ class User(models.Model):
     def follow(self, target):
         self.targets.create(target=target, follower=self)
 
-        send_email.apply_async((f'Dear {target.username}. {self.username} is now following you.',))
-        return True
+        if target.email:
+            subject = 'New follower'
+            message = f'Dear {target.username}. {self.username} is now following you.'
+            # send_async_email(subject, message, target.email)
+            send_async_email.apply_async((subject, message, target.email))
 
     def unfollow(self, target):
         old_follow = self.targets.get(target=target)
         old_follow.delete()
-        return True
 
     def is_following(self, target):
         try:
