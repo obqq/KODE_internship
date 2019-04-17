@@ -40,6 +40,14 @@ API_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'src\\keys\\jwtRS256.key.pub')
 
 ACCESS_TOKEN_EXPIRE_SECONDS = 36000
 
+# Email
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+EMAIL_PORT = 587
+
 # Application definition
 
 INSTALLED_APPS = [
