@@ -1,10 +1,11 @@
-
-from .user import UserViewSet
 from .auth import AccessTokenView, RefreshTokenView, PublicKeyView
-
+from .user import UserViews, UserCreateView, UserListView, FollowViews
 
 __all__ = [
-    'UserViewSet',
+    'UserCreateView',
+    'UserListView',
+    'UserViews',
+    'FollowViews',
     'AccessTokenView',
     'RefreshTokenView',
     'PublicKeyView'

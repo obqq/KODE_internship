@@ -1,5 +1,9 @@
-from .models import User
+from .follow import Follow
+from .pitt import Pitt
+from .user import User
 
 __all__ = [
-    'User'
+    'User',
+    'Pitt',
+    'Follow'
 ]
