@@ -1,7 +1,6 @@
 import logging
 
 from django.conf import settings
-
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -23,7 +22,7 @@ class PublicKeyView(APIView):
 
 class AccessTokenView(APIView):
 
-    def post(self, request):
+    def get(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
 
@@ -59,7 +58,7 @@ class RefreshTokenView(APIView):
         try:
             token = decode_token(refresh_token)
             token['refresh_token']
-        except:
+        except KeyError:
             return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
 
         token = generate_token(token.get('username'))
