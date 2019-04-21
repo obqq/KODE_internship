@@ -69,8 +69,13 @@ class PittViewSet(generics.GenericAPIView):
         return Response({'pitt_id': pitt.pitt_id},
                         status=status.HTTP_201_CREATED)
 
-    def delete(self, request, username=None, pitt_id=None, *args, **kwargs):
+    def delete(self, request, username=None, *args, **kwargs):
         user = self.get_user(username=username)
+
+        pitt_id = request.POST.get('pitt_id')
+        if not pitt_id:
+            return Response({'error': 'pitt_id parameter is not specified'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         try:
             user.delete_pitt(pitt_id)
