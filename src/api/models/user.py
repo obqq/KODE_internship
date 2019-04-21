@@ -3,6 +3,7 @@ import uuid
 
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
 from api.tasks import send_async_email
@@ -66,18 +67,33 @@ class User(models.Model):
         if target.email:
             subject = 'New follower'
             message = f'Dear {target.username}. {self.username} is now following you.'
-            # send_async_email(subject, message, target.email)
-            send_async_email.apply_async((subject, message, target.email))
+            send_async_email.delay(subject, message, target.email)
 
     def unfollow(self, target):
         old_follow = self.targets.get(target=target)
         old_follow.delete()
 
+    def create_pitt(self, **kwargs):
+        pitt = self.pitts.create(**kwargs)
+
+        for follower in self.followers.all():
+
+            if follower.follower.email:
+                subject = 'New pitt'
+                message = f'Dear {follower.username}. {self.username} just posted new pitt.'
+                send_async_email.delay(subject, message, follower.email)
+
+        return pitt
+
+    def delete_pitt(self, pitt_id):
+        pitt = self.pitts.get(pitt_id=pitt_id)
+        pitt.delete()
+
     def is_following(self, target):
         try:
             self.targets.get(target=target)
             return True
-        except:
+        except ObjectDoesNotExist:
             pass
 
     def __str__(self):

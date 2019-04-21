@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '96ca&lyuapikc9uo(5^1vky@ixt5tazc5y#07jncgqqjdo8+ia'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get('DEBUG', 1))
@@ -33,12 +33,6 @@ DEBUG = bool(os.environ.get('DEBUG', 1))
 ALLOWED_HOSTS = [
     '*',
 ]
-
-# API
-API_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, 'src\\keys\\jwtRS256.key')
-API_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'src\\keys\\jwtRS256.key.pub')
-
-ACCESS_TOKEN_EXPIRE_SECONDS = 36000
 
 # Email
 
@@ -58,13 +52,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'api'
+    'api',
+    'api.celery'
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10
 }
+
+# JWT AUTH
+
+
+JWT_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, 'src\\keys\\jwtRS256.key')
+JWT_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'src\\keys\\jwtRS256.key.pub')
+JWT_PRIVATE_KEY = open(JWT_PRIVATE_KEY_PATH).read()
+JWT_PUBLIC_KEY = open(JWT_PUBLIC_KEY_PATH).read()
+JWT_ALGORITHM = 'RS256'
+JWT_AUTH_HEADER_PREFIX = 'Bearer'
+JWT_REFRESH_EXPIRATION_DELTA = 36000
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
